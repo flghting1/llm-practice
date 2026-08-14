@@ -1,3 +1,4 @@
+import logging
 import os
 from time import perf_counter
 
@@ -5,6 +6,12 @@ from fastapi import FastAPI, Header,HTTPException
 from pydantic import BaseModel, Field, field_validator
 
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(message)s",
+)
+
+logger = logging.getLogger(__name__)
 app = FastAPI(title="HTTP Practice API")
 
 
@@ -43,11 +50,33 @@ def chat(request: ChatRequest):
 
     start_time = perf_counter()
 
-    return ChatResponse(
-        answer=f"你提出的问题是：{request.question}",
-        sources=["local-demo"],
-        latency_ms=round((perf_counter() - start_time) * 1000, 2),
+    logger.info(
+        "收到 chat 请求，question_length=%s",
+        len(request.question),
     )
+
+    try:
+        response = ChatResponse(
+            answer=f"你提出的问题是：{request.question}",
+            sources=["local-demo"],
+            latency_ms=round(
+                (perf_counter() - start_time) * 1000,
+                2,
+            ),
+        )
+    except Exception as error:
+        logger.exception("处理 chat 请求失败")
+        raise HTTPException(
+            status_code=500,
+            detail="服务内部发生错误",
+        ) from error
+
+    logger.info(
+        "chat 请求完成，latency_ms=%s",
+        response.latency_ms,
+    )
+
+    return response
 
 @app.get("/admin/stats")
 def admin_stats(
