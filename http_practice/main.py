@@ -1,6 +1,7 @@
+import os
 from time import perf_counter
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, Header,HTTPException
 from pydantic import BaseModel, Field, field_validator
 
 
@@ -47,3 +48,47 @@ def chat(request: ChatRequest):
         sources=["local-demo"],
         latency_ms=round((perf_counter() - start_time) * 1000, 2),
     )
+
+@app.get("/admin/stats")
+def admin_stats(
+    x_api_key:str | None = Header(default=None),
+):
+    excepted_api_key = os.getenv("DEMO_API_KEY")
+
+    if not x_api_key:
+        raise HTTPException(
+            status_code=401,
+            detail="缺少 API Key",
+        )
+
+    if x_api_key != excepted_api_key:
+        raise HTTPException(
+            status_code=403,
+            detail="API Key 不正确",
+        )
+
+    return {
+        "users":10,
+        "questions":25,
+        "status":"ok",
+    }
+
+USERS = {
+    1: {"name": "张三","role": "developer"},
+    2: {"name": "李四","role": "tester"},
+}
+
+@app.get("/users/{user_id}")
+def get_user(user_id: int):
+    user = USERS.get(user_id)
+
+    if user is None:
+        raise HTTPException(
+            status_code=404,
+            detail="用户不存在",
+        )
+
+    return {
+        "id": user_id,
+        **user,
+    }
