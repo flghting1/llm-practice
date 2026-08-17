@@ -67,6 +67,46 @@ Swagger 地址：
 http://127.0.0.1:8001/docs
 ```
 
+## 启动网页前端
+
+本项目采用前后端分离方式运行，需要同时启动两个终端。
+
+终端 1 启动 FastAPI：
+
+```powershell
+python -m uvicorn rag_api:app --host 127.0.0.1 --port 8001
+```
+
+终端 2 启动 Streamlit：
+
+```powershell
+python -m streamlit run streamlit_app.py --server.port 8501
+```
+
+网页地址：
+
+```text
+http://localhost:8501
+```
+
+前后端数据流：
+
+```text
+浏览器
+→ Streamlit 网页
+→ POST /ask
+→ FastAPI
+→ Embedding 检索
+→ 返回答案和来源
+→ 网页展示
+```
+
+可以通过环境变量修改后端地址：
+
+```powershell
+$env:RAG_API_URL = "http://127.0.0.1:8001/ask"
+```
+
 ## 接口说明
 
 ### 健康检查
@@ -140,12 +180,12 @@ POST /ask
 - 回答暂时使用第一条检索资料模拟，尚未调用真实 LLM
 - 文档向量会在每次请求时重新计算
 - 查询改写规则目前为人工维护
-- 还没有网页前端、上传文档和用户反馈功能
+- 网页目前只支持单轮问答
+- 还没有上传文档和用户反馈功能
 
 ## 下一步计划
 
 - 缓存文档向量，减少重复计算
 - 接入真实大模型 API
 - 增加知识库文档数量
-- 增加简单网页前端
 - 增加响应时间和错误日志
