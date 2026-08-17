@@ -1,7 +1,5 @@
-from vector_retriever import (
-    load_documents,
-    vector_search,
-)
+from embedding_retriever import embedding_search
+from keyword_retriever import load_documents
 
 
 REWRITE_RULES = {
@@ -53,13 +51,13 @@ def answer_question(question: str) -> dict:
     documents = load_documents("documents.json")
     rewritten_question = rewrite_question(question)
 
-    results = vector_search(
+    results = embedding_search(
         rewritten_question,
         documents,
         top_k=3,
     )
 
-    if not results or results[0]["score"] < 0.08:
+    if not results or results[0]["score"] < 0.60:
         return {
             "answer": "根据现有资料无法确定。",
             "sources": [],
@@ -87,7 +85,7 @@ def answer_question(question: str) -> dict:
 
 
 def main():
-    question = "怎么把项目上线？"
+    question = "怎样把项目上线？"
     result = answer_question(question)
 
     print("问题：", question)
