@@ -12,6 +12,83 @@ def load_documents(filename: str) -> list[dict]:
     return json.loads(text)
 
 
+def split_text(
+    text: str,
+    chunk_size: int = 300,
+    overlap: int = 50,
+) -> list[str]:
+    if chunk_size <= overlap:
+        raise ValueError(
+            "chunk_size 必须大于 overlap"
+        )
+
+    chunks = []
+    start = 0
+
+    while start < len(text):
+        end = min(
+            start + chunk_size,
+            len(text),
+        )
+        chunk = text[start:end].strip()
+
+        if chunk:
+            chunks.append(chunk)
+
+        if end == len(text):
+            break
+
+        start = end - overlap
+
+    return chunks
+
+
+def load_markdown_documents(
+    folder_name: str,
+) -> list[dict]:
+    folder_path = BASE_DIR / folder_name
+    documents = []
+
+    markdown_files = sorted(
+        folder_path.rglob("*.md")
+    )
+
+    for index, file_path in enumerate(
+        markdown_files,
+        start=1,
+    ):
+        content = file_path.read_text(
+            encoding="utf-8"
+        )
+        lines = content.splitlines()
+        title = file_path.stem.replace("_", " ")
+
+        if lines and lines[0].startswith("# "):
+            title = lines[0][2:].strip()
+
+        chunks = split_text(content)
+
+        for chunk_index, chunk in enumerate(
+            chunks,
+            start=1,
+        ):
+            documents.append(
+                {
+                    "id": (
+                        f"md-{index}-{chunk_index}"
+                    ),
+                    "title": title,
+                    "content": chunk,
+                    "source": file_path.relative_to(
+                        BASE_DIR
+                    ).as_posix(),
+                    "chunk_index": chunk_index,
+                }
+            )
+
+    return documents
+
+
 def tokenize(text: str) -> set[str]:
     tokens = set()
 
@@ -72,8 +149,10 @@ def keyword_search(
 
 
 def main():
-    question = "怎样把项目上线？"
-    documents = load_documents("documents.json")
+    question = "RAG 的完整流程是什么？"
+    documents = load_markdown_documents(
+        "knowledge_base"
+    )
     results = keyword_search(
         question,
         documents,
@@ -88,6 +167,7 @@ def main():
         print("分数：", result["score"])
         print("匹配词：", result["matched_tokens"])
         print("来源：", result["source"])
+        print("片段：", result["chunk_index"])
         print("正文：", result["content"])
 
 

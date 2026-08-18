@@ -34,6 +34,31 @@
 → 返回答案和引用来源
 ```
 
+## Markdown 知识库
+
+知识库文档放在 `knowledge_base/` 目录下，按用途分为：
+
+- `job_descriptions/`：岗位 JD
+- `official_docs/`：官方文档
+- `interview_notes/`：面试题和回答
+- `study_notes/`：学习笔记
+
+程序会递归读取目录中的 Markdown 文件，提取一级标题作为文档标题，并按 300 字符切分，片段之间保留 50 字符重叠。
+
+查看当前知识库统计：
+
+```powershell
+.venv\Scripts\python.exe inspect_knowledge_base.py
+```
+
+将旧 JSON 资料转换为 Markdown：
+
+```powershell
+.venv\Scripts\python.exe migrate_json_to_markdown.py
+```
+
+当前知识库包含 7 份 Markdown 文档，切分后得到 9 个片段。
+
 ## 环境要求
 
 - Python 3.12

@@ -1,5 +1,7 @@
 from embedding_retriever import embedding_search
-from keyword_retriever import load_documents
+from keyword_retriever import (
+    load_markdown_documents,
+)
 
 
 REWRITE_RULES = {
@@ -48,7 +50,9 @@ def build_prompt(
 
 
 def answer_question(question: str) -> dict:
-    documents = load_documents("documents.json")
+    documents = load_markdown_documents(
+    "knowledge_base"
+)
     rewritten_question = rewrite_question(question)
 
     results = embedding_search(
