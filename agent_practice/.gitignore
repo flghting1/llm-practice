@@ -1,0 +1,5 @@
+.venv/
+sales.db
+sql_tool_calls.jsonl
+__pycache__/
+*.pyc
