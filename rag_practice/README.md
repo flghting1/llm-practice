@@ -67,6 +67,31 @@ Swagger 地址：
 http://127.0.0.1:8001/docs
 ```
 
+## 使用 Docker 运行 API
+
+构建 Docker 镜像：
+
+```powershell
+docker build -t rag-practice-api .
+```
+
+启动容器并映射端口：
+
+```powershell
+docker run --rm -p 8001:8001 rag-practice-api
+```
+
+启动后访问：
+
+```text
+健康检查：http://127.0.0.1:8001/health
+接口文档：http://127.0.0.1:8001/docs
+```
+
+首次启动时可能需要下载 Embedding 模型，因此等待时间会稍长。终端显示 `Uvicorn running on http://0.0.0.0:8001` 表示启动成功。
+
+按 `Ctrl + C` 可以停止并删除当前容器。
+
 ## 启动网页前端
 
 本项目采用前后端分离方式运行，需要同时启动两个终端。
