@@ -184,6 +184,18 @@ POST /ask
 - 知识库没有答案时返回 `200`，同时 `sources` 为空
 - 无依据时回答：`根据现有资料无法确定。`
 
+## 运行自动评测
+
+执行固定测试集：
+
+```powershell
+.venv\Scripts\python.exe evaluate_embedding.py
+```
+
+程序会输出 Top 1 准确率和 Top 3 召回率，并将每次结果追加到 `evaluation_results.jsonl`。
+
+评测日志采用 JSONL 格式，每行是一条独立的 JSON 记录。日志属于运行时数据，已通过 `.gitignore` 排除，不提交到 Git。
+
 ## 当前评测结果
 
 测试问题数量：5。

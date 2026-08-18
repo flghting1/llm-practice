@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from pathlib import Path
 
 from embedding_retriever import embedding_search
@@ -59,7 +60,22 @@ def main():
     print("问题数量：", total)
     print("Top 1 准确率：", f"{top1_hits / total:.0%}")
     print("Top 3 召回率：", f"{top3_hits / total:.0%}")
+    log_record = {
+        "evaluated_at": datetime.now().astimezone().isoformat(
+            timespec="seconds"
+        ),
+        "total": total,
+        "top1_accuracy": top1_hits / total,
+        "top3_recall": top3_hits / total,
+    }
 
+    log_path = BASE_DIR / "evaluation_results.jsonl"
+    with log_path.open("a", encoding="utf-8") as file:
+        file.write(
+            json.dumps(log_record, ensure_ascii=False) + "\n"
+        )
+
+    print("评测日志：", log_path.name)
 
 if __name__ == "__main__":
     main()

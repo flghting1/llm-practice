@@ -2,3 +2,4 @@
 __pycache__/
 *.pyc
 invalid_plan.json
+rag_practice/evaluation_results.jsonl
