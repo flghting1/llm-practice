@@ -57,7 +57,7 @@
 .venv\Scripts\python.exe migrate_json_to_markdown.py
 ```
 
-当前知识库包含 7 份 Markdown 文档，切分后得到 9 个片段。
+当前知识库包含 10 份 Markdown 文档，切分后得到 18 个片段。
 
 ## 环境要求
 
@@ -216,6 +216,12 @@ POST /ask
 ```powershell
 .venv\Scripts\python.exe evaluate_embedding.py
 ```
+使用 Markdown 知识库运行新的 Embedding 评测：
+
+```powershell
+$env:HF_HUB_OFFLINE = "1"
+$env:TRANSFORMERS_OFFLINE = "1"
+.venv\Scripts\python.exe evaluate_markdown.py
 
 程序会输出 Top 1 准确率和 Top 3 召回率，并将每次结果追加到 `evaluation_results.jsonl`。
 
