@@ -6,3 +6,6 @@ rag_practice/evaluation_results.jsonl
 rag_practice/markdown_evaluation_results.jsonl
 rag_practice/answer_evidence_results.jsonl
 resume_assets/
+sql_agent_practice/.venv/
+sql_agent_practice/*.db
+sql_agent_practice/*_results.jsonl
