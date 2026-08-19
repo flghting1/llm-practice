@@ -1,0 +1,10 @@
+.venv
+__pycache__
+*.pyc
+*.jsonl
+.git
+.gitignore
+streamlit_app.py
+test_*.py
+evaluate_*.py
+jd_cases.json
