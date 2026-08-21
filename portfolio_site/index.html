@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="程世宏的 AI 应用开发作品集，包含 RAG、SQL Agent、简历与 JD 匹配和 Docker 部署项目。"
+    />
+    <title>程世宏 | AI 应用开发作品集</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono&family=Noto+Sans+SC:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="返回首页">CH.</a>
+      <nav aria-label="主导航">
+        <a href="#projects">项目</a>
+        <a href="#engineering">工程实践</a>
+        <a href="#contact">联系</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero section-shell">
+        <div class="hero-copy">
+          <p class="eyebrow">AI APPLICATION ENGINEER / 2026</p>
+          <h1>把 AI 能力做成<br /><span>可验证的产品。</span></h1>
+          <p class="hero-intro">
+            程世宏，金融学背景的 AI 应用开发求职者。专注 RAG、结构化输出、
+            API 工程化、评测与 Docker 部署。
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#projects">查看项目</a>
+            <a
+              class="button button-secondary"
+              href="https://github.com/flghting1/llm-practice"
+              target="_blank"
+              rel="noreferrer"
+              >GitHub 代码仓库</a
+            >
+          </div>
+        </div>
+        <div class="signal-panel" aria-label="项目能力概览">
+          <div class="panel-topline">
+            <span>PORTFOLIO STATUS</span><span class="status">ONLINE</span>
+          </div>
+          <div class="signal-grid">
+            <div><strong>03</strong><span>AI 应用项目</span></div>
+            <div><strong>100%</strong><span>核心评测通过</span></div>
+            <div><strong>04</strong><span>Docker 服务链路</span></div>
+            <div><strong>252ms</strong><span>RAG 平均响应</span></div>
+          </div>
+          <div class="signal-wave" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <p>从需求拆解、开发测试到上线验收，保留可复现的工程证据。</p>
+        </div>
+      </section>
+
+      <section id="projects" class="projects section-shell">
+        <div class="section-heading">
+          <p class="eyebrow">SELECTED WORK</p>
+          <h2>项目经历</h2>
+          <p>每个项目都有 README、测试与可复现的本地 Docker 验收流程。</p>
+        </div>
+
+        <article class="project-card project-rag">
+          <div class="project-index">01</div>
+          <div class="project-main">
+            <p class="project-kind">RAG KNOWLEDGE BASE</p>
+            <h3>RAG 求职知识库助手</h3>
+            <p>
+              将岗位 JD、官方文档和学习资料组织为 Markdown 知识库，完成滑动窗口切分、
+              Embedding 检索、查询改写、无答案拒答和来源引用。
+            </p>
+            <ul class="metrics">
+              <li><b>18</b><span>份知识库文档</span></li>
+              <li><b>35</b><span>个检索片段</span></li>
+              <li><b>100%</b><span>Top 3 召回率</span></li>
+            </ul>
+          </div>
+          <div class="project-side">
+            <p>平均响应时间</p>
+            <strong>674 <small>ms</small> <em>→</em> 253 <small>ms</small></strong>
+            <span>通过进程内文档向量缓存优化</span>
+            <a href="https://github.com/flghting1/llm-practice/tree/master/rag_practice" target="_blank" rel="noreferrer">查看源码 <span>↗</span></a>
+          </div>
+        </article>
+
+        <article class="project-card project-sql">
+          <div class="project-index">02</div>
+          <div class="project-main">
+            <p class="project-kind">SAFE SQL ANALYSIS</p>
+            <h3>SQL 数据分析 Agent</h3>
+            <p>
+              基于可解释规则将业务问题转换为 SQL，提供查询解释、表格与图表；
+              在执行层加入只读限制、危险 SQL 拦截和表字段白名单。
+            </p>
+            <ul class="metrics">
+              <li><b>100%</b><span>SQL 执行成功率</span></li>
+              <li><b>100%</b><span>危险 SQL 拦截率</span></li>
+              <li><b>1</b><span>次最大修复次数</span></li>
+            </ul>
+          </div>
+          <div class="project-side">
+            <p>工程能力</p>
+            <strong>READ<br />ONLY</strong>
+            <span>FastAPI / Streamlit / Docker</span>
+            <a href="https://github.com/flghting1/llm-practice/tree/master/sql_agent_practice" target="_blank" rel="noreferrer">查看源码 <span>↗</span></a>
+          </div>
+        </article>
+
+        <article class="project-card project-match">
+          <div class="project-index">03</div>
+          <div class="project-main">
+            <p class="project-kind">JOB MATCHING TOOL</p>
+            <h3>简历与 JD 匹配助手</h3>
+            <p>
+              支持单个和多个 JD 对比，输出匹配技能、技能缺口、项目补强建议、
+              风险等级、最佳岗位排序和共同技能缺口。
+            </p>
+            <ul class="metrics">
+              <li><b>100%</b><span>缺口识别准确率</span></li>
+              <li><b>100%</b><span>输出稳定率</span></li>
+              <li><b>02</b><span>API 接口</span></li>
+            </ul>
+          </div>
+          <div class="project-side">
+            <p>结构化输出</p>
+            <strong>JSON<br />FIRST</strong>
+            <span>Pydantic / FastAPI / Streamlit</span>
+            <a href="https://github.com/flghting1/llm-practice/tree/master/resume_matcher_practice" target="_blank" rel="noreferrer">查看源码 <span>↗</span></a>
+          </div>
+        </article>
+      </section>
+
+      <section id="engineering" class="engineering">
+        <div class="section-shell engineering-grid">
+          <div>
+            <p class="eyebrow">ENGINEERING PRACTICE</p>
+            <h2>不只完成 Demo，<br />也完成交付链路。</h2>
+          </div>
+          <div class="workflow">
+            <div><span>01</span><h3>结构化设计</h3><p>使用 Pydantic、明确返回字段与错误边界。</p></div>
+            <div><span>02</span><h3>评测验证</h3><p>以固定测试集、指标和 JSONL 日志记录结果。</p></div>
+            <div><span>03</span><h3>容器部署</h3><p>构建镜像、健康检查、核心接口验收和停止清理。</p></div>
+            <div><span>04</span><h3>问题复盘</h3><p>处理模型离线缓存、SQL 安全与权限白名单问题。</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="contact section-shell">
+        <p class="eyebrow">OPEN TO OPPORTUNITIES</p>
+        <h2>寻找 AI 应用开发、Python 开发和 RAG 相关机会。</h2>
+        <p>欢迎通过 GitHub 查看完整项目代码、README、测试和部署说明。</p>
+        <a class="button button-primary" href="https://github.com/flghting1" target="_blank" rel="noreferrer">访问 GitHub 主页</a>
+      </section>
+    </main>
+
+    <footer>
+      <span>CH. / AI APPLICATION PORTFOLIO</span>
+      <span id="year"></span>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>
