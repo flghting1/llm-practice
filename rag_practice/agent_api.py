@@ -8,6 +8,7 @@ are configured on the server.
 
 import os
 from pathlib import Path
+from typing import Dict, List, Optional
 
 import requests
 from fastapi import FastAPI, HTTPException
@@ -33,7 +34,7 @@ def safe_knowledge_path(relative_path: str) -> Path:
     return candidate
 
 
-def search_web(question: str) -> list[dict]:
+def search_web(question: str) -> List[Dict[str, str]]:
     """Use DuckDuckGo's public HTML endpoint; no API key is required."""
     try:
         response = requests.get(
@@ -83,7 +84,7 @@ def search_web(question: str) -> list[dict]:
     return parser.results[:5]
 
 
-def model_summary(question: str, evidence: str) -> str | None:
+def model_summary(question: str, evidence: str) -> Optional[str]:
     base_url = os.getenv("AGENT_LLM_BASE_URL", "").rstrip("/")
     api_key = os.getenv("AGENT_LLM_API_KEY", "")
     model = os.getenv("AGENT_LLM_MODEL", "qwen-turbo")
