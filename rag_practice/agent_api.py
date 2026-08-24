@@ -7,6 +7,7 @@ are configured on the server.
 """
 
 import os
+import re
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -14,12 +15,32 @@ import requests
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
-from keyword_retriever import load_markdown_documents, keyword_search
-
-
 BASE_DIR = Path(__file__).resolve().parent
 KNOWLEDGE_DIR = (BASE_DIR / "knowledge_base").resolve()
 app = FastAPI(title="Personal Knowledge Agent", version="1.0.0")
+
+
+def load_agent_documents(folder_name):
+    folder = BASE_DIR / folder_name
+    documents = []
+    for index, path in enumerate(sorted(folder.rglob("*.md")), 1):
+        text = path.read_text(encoding="utf-8")
+        lines = text.splitlines()
+        title = lines[0][2:].strip() if lines and lines[0].startswith("# ") else path.stem
+        documents.append({"id": "agent-%s" % index, "title": title, "content": text, "source": path.relative_to(BASE_DIR).as_posix()})
+    return documents
+
+
+def keyword_search(question, documents, top_k=3):
+    tokens = set(re.findall(r"[A-Za-z0-9_]+|[\u4e00-\u9fff]", question.lower()))
+    ranked = []
+    for document in documents:
+        text = (document["title"] + " " + document["content"]).lower()
+        score = sum(1 for token in tokens if token in text)
+        if score:
+            ranked.append(dict(document, score=score))
+    ranked.sort(key=lambda item: item["score"], reverse=True)
+    return ranked[:top_k]
 
 
 class AgentRequest(BaseModel):
@@ -133,7 +154,7 @@ def ask(request: AgentRequest) -> dict:
         raise HTTPException(status_code=400, detail="mode 必须是 knowledge、search 或 files")
 
     if request.mode == "files":
-        results = keyword_search(question, load_markdown_documents("knowledge_base"), top_k=5)
+        results = keyword_search(question, load_agent_documents("knowledge_base"), top_k=5)
         return {
             "answer": "已在受限知识库目录中找到相关文件。",
             "evidence": [
@@ -152,7 +173,7 @@ def ask(request: AgentRequest) -> dict:
             "tool": "web_search",
         }
 
-    results = keyword_search(question, load_markdown_documents("knowledge_base"), top_k=3)
+    results = keyword_search(question, load_agent_documents("knowledge_base"), top_k=3)
     if not results:
         return {"answer": "根据现有资料无法确定。", "evidence": [], "tool": "knowledge_search"}
     evidence = "\n\n".join(f"{item['title']}\n{item['content']}\n来源：{item['source']}" for item in results)
