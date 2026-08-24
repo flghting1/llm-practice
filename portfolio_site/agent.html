@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>个人知识 Agent | 程世宏</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .agent-shell{max-width:920px;margin:0 auto;padding:9rem 1.25rem 4rem}.agent-head{display:flex;justify-content:space-between;gap:1rem;align-items:end;border-bottom:1px solid var(--line);padding-bottom:2rem}.agent-head h1{font-size:clamp(2.2rem,6vw,4.5rem);margin:.4rem 0}.agent-head p{max-width:620px;color:var(--muted)}.agent-back{color:var(--accent)}.agent-form{margin-top:2rem;border:1px solid var(--line);padding:1rem;background:var(--panel);display:grid;gap:1rem}.agent-form textarea{min-height:110px;resize:vertical;background:transparent;border:1px solid var(--line);padding:1rem;color:var(--text);font:inherit}.agent-controls{display:flex;gap:.75rem;flex-wrap:wrap}.agent-controls select,.agent-controls button{border:1px solid var(--line);padding:.75rem 1rem;background:transparent;color:var(--text);font:inherit}.agent-controls button{background:var(--accent);color:#071016;border-color:var(--accent);cursor:pointer;font-weight:700}.agent-result{margin-top:1.5rem;display:grid;gap:1rem}.agent-answer,.agent-evidence{border-top:2px solid var(--accent);padding:1.25rem 0}.agent-answer p{white-space:pre-wrap;line-height:1.8}.agent-evidence article{border:1px solid var(--line);padding:1rem;margin-top:.75rem}.agent-evidence small{color:var(--muted)}.agent-status{color:var(--muted);min-height:1.4em}
+    </style>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html">CH.</a><nav><a href="index.html#projects">项目</a><a href="index.html#contact">联系</a></nav></header>
+    <main class="agent-shell">
+      <div class="agent-head"><div><p class="eyebrow">PERSONAL KNOWLEDGE AGENT / ONLINE</p><h1>让资料<br /><span>可以被问。</span></h1><p>一个受限、可追溯的 Agent 工作台：检索个人知识库，或调用联网搜索，并显示工具与证据来源。</p></div><a class="agent-back" href="index.html">返回作品集 ↗</a></div>
+      <form class="agent-form" id="agent-form"><textarea id="question" maxlength="500" placeholder="例如：RAG 的完整流程是什么？"></textarea><div class="agent-controls"><select id="mode"><option value="knowledge">知识库问答</option><option value="search">联网搜索</option><option value="files">知识库文件查找</option></select><button type="submit">运行 Agent</button></div><div class="agent-status" id="status">等待提问</div></form>
+      <section class="agent-result" id="result" hidden><div class="agent-answer"><p class="eyebrow">ANSWER</p><p id="answer"></p></div><div class="agent-evidence"><p class="eyebrow">EVIDENCE / TOOL TRACE</p><div id="evidence"></div></div></section>
+    </main>
+    <script>
+      const form=document.querySelector('#agent-form'), status=document.querySelector('#status'), result=document.querySelector('#result'), answer=document.querySelector('#answer'), evidence=document.querySelector('#evidence');
+      form.addEventListener('submit',async(e)=>{e.preventDefault();const question=document.querySelector('#question').value.trim();const mode=document.querySelector('#mode').value;if(!question){status.textContent='请输入问题';return}status.textContent='Agent 正在调用工具…';result.hidden=true;try{const r=await fetch('/agent/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question,mode})});const data=await r.json();if(!r.ok)throw new Error(data.detail||'请求失败');answer.textContent=data.answer; evidence.innerHTML=(data.evidence||[]).map(item=>`<article><strong>${item.title||'搜索结果'}</strong><br/><small>${item.source||item.url||''}</small><p>${item.snippet||''}</p>${item.url?`<a href="${item.url}" target="_blank" rel="noreferrer">打开来源 ↗</a>`:''}</article>`).join('')||'<p>没有找到证据。</p>';status.textContent=`已完成，工具：${data.tool}`;result.hidden=false}catch(err){status.textContent=err.message}});
+    </script>
+  </body>
+</html>
