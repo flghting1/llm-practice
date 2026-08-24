@@ -8,7 +8,6 @@ are configured on the server.
 
 import os
 from pathlib import Path
-from typing import Literal
 
 import requests
 from fastapi import FastAPI, HTTPException
@@ -24,7 +23,7 @@ app = FastAPI(title="Personal Knowledge Agent", version="1.0.0")
 
 class AgentRequest(BaseModel):
     question: str = Field(min_length=1, max_length=500)
-    mode: Literal["knowledge", "search", "files"] = "knowledge"
+    mode: str = "knowledge"
 
 
 def safe_knowledge_path(relative_path: str) -> Path:
@@ -129,6 +128,8 @@ def ask(request: AgentRequest) -> dict:
     question = request.question.strip()
     if not question:
         raise HTTPException(status_code=400, detail="question 不能为空")
+    if request.mode not in {"knowledge", "search", "files"}:
+        raise HTTPException(status_code=400, detail="mode 必须是 knowledge、search 或 files")
 
     if request.mode == "files":
         results = keyword_search(question, load_markdown_documents("knowledge_base"), top_k=5)
