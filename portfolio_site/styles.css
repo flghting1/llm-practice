@@ -208,3 +208,68 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--orange); outlin
   .contact-details { grid-template-columns: 1fr; max-width: 320px; }
   footer { padding-left: 20px; padding-right: 20px; }
 }
+
+/* Unified dark portfolio surface: keep the light accents reserved for evidence. */
+body {
+  color: #edf3ed;
+  background: #0d1915;
+}
+.site-header {
+  background: rgba(13, 25, 21, .94);
+  border-bottom-color: #263b32;
+}
+.brand { color: #edf3ed; border-color: #8da197; }
+.brand:hover { color: var(--ink); background: var(--lime); }
+nav a { color: #aebdb4; }
+nav a:hover, nav a:focus-visible { color: #f8fbf3; }
+.hero { margin-bottom: 0; }
+.hero .button-primary { color: var(--ink); background: var(--lime); border-color: var(--lime); }
+.hero .button-primary:hover, .hero .button-primary:focus-visible { color: #fff; background: var(--blue); border-color: var(--blue); }
+.projects { background: #0d1915; }
+.section-heading > p:last-child { color: #aebdb4; }
+.project-card {
+  color: #edf3ed;
+  background: #14251f;
+  border-color: #334b40;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .16);
+}
+.project-card:hover { box-shadow: 7px 7px 0 #07100d; }
+.project-main > p:not(.project-kind) { color: #b9c8be; }
+.metrics span, .project-side p, .project-side > span { color: #9eafa5; }
+.project-side { border-left-color: #3b5448; }
+.project-source { color: #b8caff; border-color: #48617c; }
+.capabilities {
+  background: #13241e;
+  border-top-color: #2d4539;
+  border-bottom-color: #2d4539;
+}
+.capability-card { background: #1a3027; border-color: #3b5748; }
+.background { background: #0d1915; }
+.background-card {
+  color: #edf3ed;
+  background: #14251f;
+  border-color: #334b40;
+}
+.background-card:hover { border-color: #91a89a; }
+.background-meta, .background-detail p, .work-highlights li { color: #aebdb4; }
+.background-detail { border-top-color: #385045; }
+.work-highlights { border-top-color: #385045; }
+.work-highlights strong { color: #edf3ed; }
+.fit { background: #0d1915; }
+.fit-content > p { color: #b5c4bb; }
+.role-tags li {
+  color: #dce8df;
+  background: #14251f;
+  border-color: #3b5448;
+}
+.role-tags li:hover { background: #213c30; border-color: var(--lime); }
+.contact { background: #0d1915; }
+.contact > p:not(.eyebrow) { color: #b5c4bb; }
+.contact-item {
+  color: #edf3ed;
+  background: #14251f;
+  border-color: #3b5448;
+}
+.contact-item span { color: #9eafa5; }
+.contact-item:hover, .contact-item:focus-visible { color: var(--ink); background: var(--lime); border-color: var(--lime); }
+footer { color: #8fa198; border-top-color: #2d4539; }
