@@ -273,3 +273,20 @@ nav a:hover, nav a:focus-visible { color: #f8fbf3; }
 .contact-item span { color: #9eafa5; }
 .contact-item:hover, .contact-item:focus-visible { color: var(--ink); background: var(--lime); border-color: var(--lime); }
 footer { color: #8fa198; border-top-color: #2d4539; }
+
+/* Outer canvas and evidence rhythm: the page stays dark between content panels. */
+html { background: #0d1915; }
+body {
+  background-color: #0d1915;
+  background-image: linear-gradient(rgba(116, 151, 130, .045) 1px, transparent 1px), linear-gradient(90deg, rgba(116, 151, 130, .045) 1px, transparent 1px);
+  background-size: 46px 46px;
+}
+.projects, .background, .fit, .contact { background: transparent; }
+.section-heading h2, .background-card h3, .project-main h3 { color: #f3f7f2; }
+.work-highlights { position: relative; list-style: none; counter-reset: work-step; }
+.work-highlights::before { content: ""; position: absolute; left: 8px; top: 22px; bottom: 10px; width: 1px; background: #486054; }
+.work-highlights li { position: relative; padding-left: 30px; }
+.work-highlights li::before { counter-increment: work-step; content: "0" counter(work-step); position: absolute; left: 0; top: 1px; color: var(--lime); background: #14251f; font: 11px "DM Mono", monospace; }
+.work-highlights strong { display: block; margin-bottom: 5px; }
+.projects .section-heading, .background .section-heading, .fit > div:first-child, .contact { position: relative; }
+.projects .section-heading::after, .background .section-heading::after, .fit > div:first-child::after, .contact::after { content: ""; position: absolute; right: 0; top: 0; width: 82px; height: 1px; background: #385045; }
