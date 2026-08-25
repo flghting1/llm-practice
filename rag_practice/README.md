@@ -1,8 +1,41 @@
-# 本地 RAG 知识库练习
+# RAG 求职知识库助手
 
-这是一个用于学习 RAG、Embedding、来源引用和 FastAPI 的本地知识库问答项目。
+这是一个用于学习和展示 RAG、Embedding、来源引用和 FastAPI 的本地知识库问答项目。
 
-当前版本使用本地中文 Embedding 模型完成文档检索，并用检索到的第一条资料模拟回答。项目尚未接入真实大模型 API。
+项目默认使用本地中文 Embedding 模型完成文档检索；配置 OpenAI-compatible 接口后，
+会基于检索证据生成回答。未配置模型或外部调用失败时，自动回退为抽取式回答，保证离线演示可用。
+
+## 项目演示
+
+模型生成方式与来源引用：
+
+![模型生成方式与来源引用](assets/rag-llm-sources.png)
+
+操作演示：输入问题后，页面展示模型生成回答和检索来源。
+
+![真实模型问答演示](assets/rag-llm-walkthrough.gif)
+
+完整的 3 分钟录制讲解与操作顺序见 [RAG录制讲解稿.md](RAG录制讲解稿.md)。
+
+- [GitHub 项目目录](https://github.com/flghting1/llm-practice/tree/master/rag_practice)
+- [播放或下载完整旁白演示（MP4，14.7 MB）](https://github.com/flghting1/llm-practice/raw/refs/heads/master/rag_practice/assets/rag-demo-narrated.mp4)
+- [查看模型生成与来源引用截图](https://github.com/flghting1/llm-practice/blob/master/rag_practice/assets/rag-llm-sources.png)
+
+离线模式下，真实接口调用 `POST /ask` 的响应如下。`answer_mode` 会明确标识回答来自模型生成还是离线证据回退，避免把演示模式误表述为真实模型调用。
+
+```json
+{
+  "answer": "项目上线可以使用 Docker 部署。Docker 将应用和运行依赖封装成容器，再运行于服务器。",
+  "answer_mode": "extractive_fallback",
+  "sources": [
+    {
+      "title": "Docker 部署",
+      "source": "knowledge_base/study_notes/imported/deployment_notes.md",
+      "score": 0.7838
+    }
+  ]
+}
+```
 
 ## 已实现功能
 
@@ -17,6 +50,7 @@
 - 来源文件与相似度展示
 - `GET /health` 健康检查
 - `POST /ask` 知识库问答接口
+- 可选 OpenAI-compatible 生成层与离线回退
 - 空输入与无答案处理
 - 固定测试集批量评测
 
@@ -30,7 +64,7 @@
 → 返回 Top 3 文档
 → 使用 0.60 阈值过滤
 → 拼接 Prompt
-→ 生成模拟回答
+→ 调用可选 LLM 生成回答（失败时抽取式回退）
 → 返回答案和引用来源
 ```
 
@@ -192,6 +226,7 @@ POST /ask
 ```json
 {
   "answer": "项目上线可以使用 Docker 部署。",
+  "answer_mode": "extractive_fallback",
   "sources": [
     {
       "title": "Docker 部署",
@@ -201,6 +236,34 @@ POST /ask
   ]
 }
 ```
+
+配置真实模型回答（服务端环境变量，不要提交密钥）：
+
+```powershell
+$env:RAG_LLM_BASE_URL = "https://your-openai-compatible-endpoint/v1"
+$env:RAG_LLM_API_KEY = "your-key"
+$env:RAG_LLM_MODEL = "your-model"
+```
+
+也可以复制 `.env.example` 的变量名到部署平台或本地终端。`.env` 已被 Git 忽略，密钥不应写入 README、截图或代码。
+
+`answer_mode` 为 `llm` 表示使用模型生成，`extractive_fallback` 表示使用离线回退，`no_answer` 表示检索证据不足时拒答。接口同时返回非敏感的 `generation_status`，用于区分未配置、网络、HTTP 和响应格式问题，避免模型调用失败被误判为成功。
+
+### 不落盘配置并启动真实模型演示
+
+项目提供 `start_with_llm.py`，运行时会隐藏输入 API Key，只将它传给当前 Uvicorn 子进程，服务退出后自动消失，不创建 `.env` 文件。PowerShell 用户也可以使用同目录的 `start_with_llm.ps1` 转发器。
+
+```powershell
+& ".\.venv\Scripts\python.exe" ".\start_with_llm.py" --base-url "https://your-openai-compatible-endpoint/v1" --model "your-model-name" --port 8013
+```
+
+启动后检查：
+
+```powershell
+Invoke-RestMethod http://127.0.0.1:8001/health
+```
+
+当响应中的 `generation_configured` 为 `true` 时，再发送一个已有依据的问题。响应的 `answer_mode` 为 `llm`，才表示本次演示实际调用了模型服务。
 
 ## 输入与错误处理
 
@@ -257,6 +320,17 @@ $env:TRANSFORMERS_OFFLINE = "1"
 - 文档向量缓存优化后平均响应时间：252.66 ms
 - 缓存生效后单题响应时间约为 14～17 ms
 
+## 真实模型端到端验收
+
+在 2026-08-25 使用已配置的 OpenAI-compatible 服务完成一次真实调用验收，未记录或提交服务地址和密钥。
+
+- `/health` 返回 `generation_configured: true`
+- “怎样把项目上线？”返回 `answer_mode: llm` 和 `generation_status: success`
+- 返回 3 条相关来源：Docker 部署、Docker 官方文档要点、FastAPI 官方文档要点
+- 回答包含 Docker/容器/部署相关内容
+
+无依据问题会返回 `answer_mode: no_answer`、空来源和固定拒答文案。该结果仅证明本次真实接口链路可用；不把单条问答结果当作生成质量指标。
+
 ## 失败案例复盘
 
 固定评测中有两个问题的正确来源排在 Top 2：
@@ -293,52 +367,19 @@ $env:TRANSFORMERS_OFFLINE = "1"
 
 ## 当前限制
 
-- 回答暂时直接使用第一条检索片段模拟，尚未接入真实 LLM。
+- 默认不配置真实 LLM，离线模式使用第一条检索片段作为可解释回退回答。
+- 真实 LLM 生成质量取决于所配置的模型和服务端，不把小规模固定评测结果视为生产指标。
 - 文档向量缓存只在当前进程内有效，服务重启后需要重新生成。
 - 查询改写规则由人工维护。
 - 当前固定评测集只有 6 个问题。
 - 网页只支持单轮问答。
 - 尚未部署到公网服务器。
 
-## 下一步计划
+## 后续可扩展方向
 
 - 将知识库扩充到 30～50 份文档。
 - 将固定评测集扩充到至少 20 个问题。
-- 接入真实大模型并进行 Faithfulness 评测。
+- 使用已配置的真实模型完成端到端回答质量与 Faithfulness 评测。
 - 增加上传文档和用户反馈功能。
 - 部署到公网服务器。
 - 增加演示截图和演示视频。
-
-## 简历项目描述
-
-### RAG 求职知识库助手
-
-技术栈：Python、FastAPI、Sentence Transformers、Streamlit、Docker、Git
-
-独立开发面向 AI 求职场景的 RAG 知识库助手，将岗位 JD、官方文档、面试笔记和学习资料统一转换为 Markdown 知识库。实现递归文档加载、滑动窗口切分、中文 Embedding 检索、查询改写、无答案拒答和来源引用，并通过 FastAPI 与 Streamlit 提供接口和网页体验。
-
-建立固定评测集与 JSONL 日志，统计 Top 1 准确率、Top 3 召回率、来源引用完整率、答案依据通过率和响应时间。当前 18 份文档、35 个片段的测试结果为 Top 3 召回率 100%、来源引用完整率 100%、规则依据通过率 100%。通过文档向量缓存将平均响应时间从 674.01 ms 降低至 252.66 ms，并完成 Docker 构建、健康检查和前端验收。
-
-## 面试讲解
-
-### 1. 项目解决了什么问题？
-
-它把分散的岗位 JD、技术文档和学习笔记整理成知识库。用户提问时，系统先检索相关片段，再返回答案和来源，减少没有资料依据的回答。
-
-### 2. RAG 链路是什么？
-
-文档读取 → Markdown 清洗 → 滑动窗口切分 → Embedding → 相似度排序 → TopK 召回 → 阈值拒答 → Prompt 拼接 → 返回答案和来源。
-
-### 3. 如何评估效果？
-
-使用固定问题集统计 Top 1 准确率和 Top 3 召回率，同时记录平均响应时间、来源引用完整率和基于规则的答案依据通过率。失败案例会写入复盘文件。
-
-### 4. 遇到过什么问题？
-
-知识库扩充后，平均响应时间从约 338 ms 上升到 674.01 ms。定位后发现每次提问都会重新计算全部文档向量，因此加入进程内缓存，将平均响应时间降低到 252.66 ms。
-
-另一个问题是相近文档之间会竞争 Top 1，例如学习笔记和官方文档都包含 FastAPI Swagger 内容。正确来源仍能进入 Top 3，后续可以通过去重、重排序和扩大评测集继续优化。
-
-### 5. 如何降低幻觉？
-
-系统要求回答基于检索资料，低于相似度阈值时明确拒答，并返回来源路径。项目还使用规则检查回答内容是否能在引用片段中找到。后续接入真实 LLM 后会增加更完整的 Faithfulness 评测。

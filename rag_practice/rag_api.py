@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
@@ -26,11 +28,25 @@ class SourceItem(BaseModel):
 class AskResponse(BaseModel):
     answer: str
     sources: list[SourceItem]
+    answer_mode: str
+    generation_status: str
 
 
 @app.get("/health")
 def health() -> dict:
-    return {"ok": True}
+    configured = all(
+        os.getenv(name, "").strip()
+        for name in (
+            "RAG_LLM_BASE_URL",
+            "RAG_LLM_API_KEY",
+            "RAG_LLM_MODEL",
+        )
+    )
+
+    return {
+        "ok": True,
+        "generation_configured": configured,
+    }
 
 
 @app.post(
@@ -51,4 +67,6 @@ def ask(request: AskRequest) -> dict:
     return {
         "answer": result["answer"],
         "sources": result["sources"],
+        "answer_mode": result["answer_mode"],
+        "generation_status": result["generation_status"],
     }

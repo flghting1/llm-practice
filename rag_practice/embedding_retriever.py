@@ -1,11 +1,25 @@
+import os
+
 from sentence_transformers import SentenceTransformer
 
 from keyword_retriever import load_documents
 
 
 MODEL_NAME = "BAAI/bge-small-zh-v1.5"
-MODEL = SentenceTransformer(MODEL_NAME)
+MODEL = None
 DOCUMENT_EMBEDDINGS_CACHE = {}
+
+
+def get_model() -> SentenceTransformer:
+    global MODEL
+
+    if MODEL is None:
+        MODEL = SentenceTransformer(
+            MODEL_NAME,
+            local_files_only=os.getenv("HF_HUB_OFFLINE") == "1",
+        )
+
+    return MODEL
 
 
 def embedding_search(
@@ -13,6 +27,7 @@ def embedding_search(
     documents: list[dict],
     top_k: int = 3,
 ) -> list[dict]:
+    model = get_model()
     cache_key = tuple(
         (
             document["id"],
@@ -32,7 +47,7 @@ def embedding_search(
             for document in documents
         ]
 
-        document_embeddings = MODEL.encode(
+        document_embeddings = model.encode(
             document_texts,
             normalize_embeddings=True,
         )
@@ -41,7 +56,7 @@ def embedding_search(
             document_embeddings
         )
 
-    question_embedding = MODEL.encode(
+    question_embedding = model.encode(
         question,
         normalize_embeddings=True,
     )

@@ -25,6 +25,18 @@ def main():
     except ValueError as error:
         print("已拦截：", error)
 
+    print("\n测试 4：结果行数上限")
+    limited_results = execute_readonly_query(
+        """
+        SELECT first_order.id AS first_id
+        FROM orders AS first_order
+        CROSS JOIN orders AS second_order
+        CROSS JOIN orders AS third_order
+        """
+    )
+    assert len(limited_results) == 100
+    print("结果已限制为：", len(limited_results))
+
 
 if __name__ == "__main__":
     main()

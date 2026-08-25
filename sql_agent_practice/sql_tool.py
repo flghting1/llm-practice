@@ -34,6 +34,8 @@ ALLOWED_SCHEMA = {
     },
 }
 
+MAX_RESULT_ROWS = 100
+
 
 def validate_sql(sql: str) -> str:
     cleaned_sql = sql.strip()
@@ -106,7 +108,7 @@ def execute_readonly_query(sql: str) -> list[dict]:
 
     try:
         cursor = connection.execute(safe_sql)
-        rows = cursor.fetchall()
+        rows = cursor.fetchmany(MAX_RESULT_ROWS)
 
         return [dict(row) for row in rows]
 

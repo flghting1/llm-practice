@@ -1,3 +1,7 @@
+import os
+
+import requests
+
 from embedding_retriever import embedding_search
 from keyword_retriever import (
     load_markdown_documents,
@@ -8,6 +12,64 @@ REWRITE_RULES = {
     "上线": "Docker 部署 容器 服务器",
     "代码版本": "Git 提交",
 }
+
+
+def call_compatible_llm(
+    question: str,
+    evidence: str,
+) -> tuple[str | None, str]:
+    """Call an optional OpenAI-compatible endpoint without breaking offline mode."""
+    base_url = os.getenv("RAG_LLM_BASE_URL", "").rstrip("/")
+    api_key = os.getenv("RAG_LLM_API_KEY", "")
+    model = os.getenv("RAG_LLM_MODEL", "")
+
+    if not base_url or not api_key or not model:
+        return None, "not_configured"
+
+    payload = {
+        "model": model,
+        "temperature": 0.2,
+        "messages": [
+            {
+                "role": "system",
+                "content": (
+                    "你是企业知识库助手。只能根据用户提供的证据回答，"
+                    "证据不足时明确回答‘根据现有资料无法确定’，不要补充外部知识。"
+                ),
+            },
+            {
+                "role": "user",
+                "content": f"问题：{question}\n\n证据：{evidence}",
+            },
+        ],
+    }
+
+    try:
+        response = requests.post(
+            f"{base_url}/chat/completions",
+            headers={"Authorization": f"Bearer {api_key}"},
+            json=payload,
+            timeout=30,
+        )
+        response.raise_for_status()
+        content = response.json()["choices"][0]["message"]["content"]
+    except requests.HTTPError as error:
+        status_code = (
+            error.response.status_code
+            if error.response is not None
+            else "unknown"
+        )
+        return None, f"http_{status_code}"
+    except requests.RequestException:
+        return None, "network_error"
+    except (KeyError, IndexError, TypeError, ValueError):
+        return None, "invalid_response"
+
+    answer = str(content).strip()
+    if not answer:
+        return None, "empty_response"
+
+    return answer, "success"
 
 
 def rewrite_question(question: str) -> str:
@@ -66,13 +128,22 @@ def answer_question(question: str) -> dict:
             "answer": "根据现有资料无法确定。",
             "sources": [],
             "prompt": "",
+            "answer_mode": "no_answer",
+            "generation_status": "not_called",
         }
 
     prompt = build_prompt(question, results)
     best_result = results[0]
 
-    # 目前用检索到的正文模拟模型回答。
-    answer = best_result["content"]
+    evidence = "\n\n".join(
+        f"标题：{result['title']}\n"
+        f"正文：{result['content']}\n"
+        f"来源：{result['source']}"
+        for result in results
+    )
+    generated_answer, generation_status = call_compatible_llm(question, evidence)
+    answer_mode = "llm" if generated_answer else "extractive_fallback"
+    answer = generated_answer or best_result["content"]
 
     return {
         "answer": answer,
@@ -85,6 +156,8 @@ def answer_question(question: str) -> dict:
             for result in results
         ],
         "prompt": prompt,
+        "answer_mode": answer_mode,
+        "generation_status": generation_status,
     }
 
 
