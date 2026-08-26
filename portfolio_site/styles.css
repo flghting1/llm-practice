@@ -10,6 +10,8 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+.skip-link { position: fixed; left: 20px; top: -60px; z-index: 30; padding: 9px 13px; color: var(--ink); background: var(--lime); border: 1px solid var(--ink); text-decoration: none; transition: top .2s ease; }
+.skip-link:focus { top: 16px; }
 body {
   margin: 0;
   color: var(--ink);
@@ -88,6 +90,13 @@ h1 span { color: var(--lime); }
 .signal-wave i:nth-child(6) { height: 70%; }
 .signal-panel > p:last-child { margin: 18px 0 0; color: #c4cdc6; font-size: 13px; }
 .projects { padding-top: 112px; padding-bottom: 116px; }
+.approach { padding-top: 18px; padding-bottom: 112px; }
+.approach-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: #385045; border: 1px solid #385045; }
+.approach-step { min-height: 214px; padding: 24px; color: #edf3ed; background: #14251f; transition: background .2s ease, transform .2s ease; }
+.approach-step:hover { background: #1a3027; transform: translateY(-3px); }
+.approach-step span { display: block; margin-bottom: 42px; color: var(--lime); font: 12px "DM Mono", monospace; }
+.approach-step h3 { margin-bottom: 9px; font-size: 19px; }
+.approach-step p { margin: 0; color: #aebdb4; font-size: 13px; }
 .section-heading { max-width: 600px; margin-bottom: 38px; }
 .section-heading::before { content: ""; display: block; width: 52px; height: 4px; margin-bottom: 20px; background: var(--blue); }
 h2 { margin-bottom: 10px; font-size: clamp(31px, 4vw, 48px); line-height: 1.2; }
@@ -189,6 +198,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--orange); outlin
   .background { padding-top: 76px; padding-bottom: 76px; }
 }
 @media (max-width: 980px) {
+  .approach-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .capability-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .work-highlights { grid-template-columns: 1fr; gap: 12px; }
 }
@@ -201,6 +211,9 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--orange); outlin
   .hero-meta { display: grid; gap: 9px; }
   .hero-meta span + span { padding-left: 0; border-left: 0; }
   .workflow { grid-template-columns: 1fr; }
+  .approach { padding-top: 0; padding-bottom: 76px; }
+  .approach-grid { grid-template-columns: 1fr; }
+  .approach-step { min-height: 0; }
   .capability-grid { grid-template-columns: 1fr; }
   .capability-card { min-height: 0; }
   .background-grid { grid-template-columns: 1fr; }
