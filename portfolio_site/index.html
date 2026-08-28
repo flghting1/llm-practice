@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="程世宏的 AI 应用开发作品集，展示可验证的 RAG 知识库与受控 SQL 数据分析项目。"
+      content="程世宏的 AI 应用开发作品集，展示个人 Nanobot Agent、可验证的 RAG 知识库与受控 SQL 数据分析项目。"
     />
     <title>程世宏 | AI 应用开发作品集</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -37,17 +37,17 @@
           <p class="eyebrow">AI APPLICATION ENGINEER / PORTFOLIO</p>
           <h1>把 AI 能力做成<br /><span>可验证的应用。</span></h1>
           <p class="hero-intro">
-            程世宏，AI 应用开发求职者。围绕真实业务问题完成 RAG 知识库、受控 SQL
-            查询与个人 Nanobot Agent 三个项目，覆盖后端接口、前端展示、测试、评测和演示交付。
+            程世宏，AI 应用开发求职者。围绕真实业务问题完成个人 Nanobot Agent、RAG 知识库
+            与受控 SQL 查询三个项目，覆盖模型接入、后端接口、前端展示、测试、评测和演示交付。
           </p>
           <div class="hero-meta" aria-label="职业定位摘要">
-            <span><b>01</b> 应用开发</span>
+            <span><b>01</b> Nanobot Agent</span>
             <span><b>02</b> RAG / 知识库</span>
             <span><b>03</b> 受控数据查询</span>
           </div>
           <div class="hero-actions">
             <a class="button button-primary" href="#projects">查看主项目</a>
-            <a class="button button-secondary" href="agent.html">体验 Agent</a>
+            <a class="button button-secondary" href="nanobot.html">查看 Nanobot Agent</a>
             <a
               class="button button-secondary"
               href="https://github.com/flghting1/llm-practice"
@@ -63,14 +63,14 @@
           </div>
           <div class="signal-grid">
             <div><strong>03</strong><span>核心项目</span></div>
-            <div><strong>02</strong><span>完整演示视频</span></div>
+            <div><strong>03</strong><span>自定义 Agent Skill</span></div>
             <div><strong>18/35</strong><span>RAG 文档 / 片段</span></div>
             <div><strong>100</strong><span>SQL 单次返回上限</span></div>
           </div>
           <div class="signal-wave" aria-hidden="true">
             <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
           </div>
-          <p>每个主项目均保留 README、接口、测试与演示材料，指标均标注具体适用范围。</p>
+            <p>三个主项目均保留 README、源码、测试或演示材料，指标均标注具体适用范围。</p>
         </div>
       </section>
 
@@ -96,7 +96,7 @@
               <li><b>LOCAL</b><span>本地工作台</span></li>
             </ul>
             <div class="project-actions">
-              <a class="project-demo" href="agent.html">体验 Nanobot <span>↗</span></a>
+              <a class="project-demo" href="nanobot.html">查看 Nanobot <span>↗</span></a>
               <a class="project-source" href="https://github.com/flghting1/llm-practice/tree/master/nanobot_agent_demo" target="_blank" rel="noreferrer">源码与演示说明 <span>↗</span></a>
             </div>
           </div>
@@ -201,11 +201,30 @@
           <div class="section-heading">
             <p class="eyebrow">STACK WITH EVIDENCE</p>
             <h2>技术栈与能力边界</h2>
-            <p>只展示在两个主项目中实际使用或验证的技术，并明确当前实现范围。</p>
+            <p>只展示在三个主项目中实际使用或验证的技术，并明确当前实现范围。</p>
           </div>
           <div class="capability-grid">
+            <article class="capability-card capability-nanobot">
+              <p class="capability-index">01 / PERSONAL NANOBOT AGENT</p>
+              <h3>Nanobot Agent</h3>
+              <p class="capability-label">实际使用技术</p>
+              <ul class="skill-tags" aria-label="Nanobot 实际使用技术">
+                <li>Python 3.12.6</li>
+                <li>Nanobot v0.3.0</li>
+                <li>OpenAI-compatible LLM</li>
+                <li>JD 匹配 Skill</li>
+                <li>BOSS 回复 Skill</li>
+                <li>面试训练 Skill</li>
+                <li>SmartSteer 状态约束</li>
+              </ul>
+              <div class="capability-boundary">
+                <p>能力边界</p>
+                <span>当前为本地个人工作台，已完成真实模型调用与三个 Skill 输出验证；不表述为生产级多 Agent 平台或公开在线服务。</span>
+              </div>
+            </article>
+
             <article class="capability-card capability-rag">
-              <p class="capability-index">01 / RAG APPLICATION</p>
+              <p class="capability-index">02 / RAG APPLICATION</p>
               <h3>RAG 应用</h3>
               <p class="capability-label">实际使用技术</p>
               <ul class="skill-tags" aria-label="RAG 实际使用技术">
@@ -224,7 +243,7 @@
             </article>
 
             <article class="capability-card capability-sql">
-              <p class="capability-index">02 / CONTROLLED DATA QUERY</p>
+              <p class="capability-index">03 / CONTROLLED DATA QUERY</p>
               <h3>受控数据查询</h3>
               <p class="capability-label">实际使用技术</p>
               <ul class="skill-tags" aria-label="SQL 实际使用技术">
@@ -239,26 +258,6 @@
               <div class="capability-boundary">
                 <p>能力边界</p>
                 <span>当前为规则型受控原型，仅覆盖 4 类预设业务问题，不表述为自主大模型 SQL Agent。</span>
-              </div>
-            </article>
-
-            <article class="capability-card capability-delivery">
-              <p class="capability-index">03 / BACKEND &amp; DELIVERY</p>
-              <h3>后端与交付</h3>
-              <p class="capability-label">实际使用技术</p>
-              <ul class="skill-tags" aria-label="后端与交付实际使用技术">
-                <li>Python</li>
-                <li>FastAPI</li>
-                <li>Pydantic</li>
-                <li>Streamlit</li>
-                <li>Docker</li>
-                <li>健康检查</li>
-                <li>自动化测试</li>
-                <li>固定集评测</li>
-              </ul>
-              <div class="capability-boundary">
-                <p>能力边界</p>
-                <span>项目已提供本地 Docker 验收与固定集检查；未将本地示例性能或测试结果外推为生产承诺。</span>
               </div>
             </article>
           </div>
@@ -310,10 +309,10 @@
             <h2>不只展示结果，<br />也说明验证方式。</h2>
           </div>
           <div class="workflow">
+            <div><span>NANOBOT / SKILLS</span><h3>有事实约束的求职工作流</h3><p>已完成 JD 匹配、BOSS 回复和面试训练三个自定义 Skill，并用真实 OpenAI-compatible 模型完成本地输出验证。</p></div>
             <div><span>RAG / QUALITY</span><h3>可追溯的回答边界</h3><p>固定 6 个问题上 Top 3 召回率为 100%，来源引用完整率为 100%；结果不等同于生产质量。</p></div>
             <div><span>SQL / SAFETY</span><h3>最小权限的执行设计</h3><p>固定集覆盖 4 个正常问题、4 条危险语句及无效输入；当前范围内正常查询成功与危险语句拦截均为 100%。</p></div>
-            <div><span>DELIVERY / DEMO</span><h3>从接口到演示的交付</h3><p>两个项目均提供 FastAPI、Streamlit、Docker 运行说明、自动化检查、README 截图与完整演示视频。</p></div>
-            <div><span>LIMITS / HONESTY</span><h3>如实标注技术边界</h3><p>RAG 的固定评测集规模有限；SQL 项目为受控规则原型，只覆盖预设业务问题。</p></div>
+            <div><span>LIMITS / HONESTY</span><h3>如实标注技术边界</h3><p>Nanobot 目前是本地个人工作台；RAG 的固定评测集规模有限；SQL 项目为受控规则原型，只覆盖预设业务问题。</p></div>
           </div>
         </div>
       </section>
@@ -355,7 +354,7 @@
         <div class="hero-actions">
           <a class="button button-primary" href="assets/cheng-shihong-ai-application-engineer-resume.pdf" download>下载 PDF 简历</a>
           <a class="button button-primary" href="https://github.com/flghting1" target="_blank" rel="noreferrer">访问 GitHub 主页</a>
-          <a class="button button-secondary" href="agent.html">打开在线 Agent</a>
+          <a class="button button-secondary" href="nanobot.html">查看 Nanobot Agent</a>
         </div>
       </section>
     </main>
