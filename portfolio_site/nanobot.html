@@ -14,19 +14,19 @@
     <main class="agent-shell">
       <section class="agent-head">
         <div>
-          <p class="eyebrow">PERSONAL NANOBOT AGENT / LOCAL WEBUI</p>
+          <p class="eyebrow">NANOBOT / E-COMMERCE MULTI-AGENT</p>
           <h1>把工作流<br /><span>交给 Agent。</span></h1>
-          <p>这是一个基于 Nanobot 的个人 Agent 工作台。它连接 OpenAI-compatible 模型，并通过三个自定义 Skill 辅助 JD 匹配、BOSS 回复和面试训练。</p>
+          <p>这是一个基于 Nanobot 的电商运营 Multi-Agent 原型。它把商品文案、客服话术、销售日报和库存预警拆成可追踪的五角色工作流，并通过审核角色控制事实边界。</p>
           <div class="agent-actions"><a class="primary" href="http://127.0.0.1:8765" target="_blank" rel="noreferrer">打开本机 Nanobot WebUI ↗</a><a href="https://github.com/flghting1/llm-practice/tree/master/nanobot_agent_demo" target="_blank" rel="noreferrer">查看源码与 Skill ↗</a></div>
         </div>
         <aside class="agent-status" aria-label="Nanobot运行状态"><span class="eyebrow">RUNTIME</span><strong>LOCAL / READY</strong><small>WebUI 地址：127.0.0.1:8765</small></aside>
       </section>
       <section class="agent-grid" aria-label="Nanobot项目能力">
-        <article class="agent-card"><b>01 / JD</b><p>读取岗位要求，按 SmartSteer 项目状态区分已具备、可迁移和待补强内容。</p></article>
-        <article class="agent-card"><b>02 / REPLY</b><p>生成适合 BOSS 直聘场景的简洁打招呼语，保持经历边界和事实准确。</p></article>
-        <article class="agent-card"><b>03 / DRILL</b><p>围绕目标岗位进行面试问答训练，给出可执行的补充学习清单。</p></article>
+        <article class="agent-card"><b>01 / ROUTER</b><p>将请求路由到商品文案、客服、销售日报或库存预警场景。</p></article>
+        <article class="agent-card"><b>02 / DATA</b><p>从本地 SQLite 模拟商品、订单和库存数据中执行只读查询。</p></article>
+        <article class="agent-card"><b>03 / REVIEW</b><p>检查输出是否有数据和规则依据，拦截夸大承诺并附上边界。</p></article>
       </section>
-      <p class="agent-note">公网作品集只展示项目说明，不代托管个人模型密钥。要体验真实 Agent，请在已启动 Nanobot 的本机打开 <code>http://127.0.0.1:8765</code>；其他访客可通过源码与 Skill 目录复现。</p>
+      <p class="agent-note">公网作品集只展示项目说明，不代托管个人模型密钥。要体验真实 Agent，请在已启动 Nanobot 的本机打开 <code>http://127.0.0.1:8765</code>；其他访客可通过源码、示例数据和测试复现。当前数据均为本地模拟数据。</p>
     </main>
   </body>
 </html>

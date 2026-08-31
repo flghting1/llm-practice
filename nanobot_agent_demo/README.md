@@ -1,39 +1,60 @@
-# 个人 Nanobot Agent
+# Nanobot 电商运营 Multi-Agent 原型
 
-一个本地运行的个人 Agent 工作台，基于 Nanobot 和 OpenAI-compatible API，面向 AI 应用开发求职场景生成可追溯的 JD 匹配、BOSS 回复与面试训练材料。
+基于 Nanobot 的本地 Agent 工作台扩展。项目将电商运营中的商品文案、客服话术、销售日报和库存预警，拆成可运行、可追溯、可审核的五角色工作流。
+
+> 重要边界：本项目使用本地 SQLite 模拟商品、库存和订单数据，以及示例运营规则。它不是 Shopify、广告平台或真实店铺的生产接入。
 
 ## 已完成内容
 
-- 配置并验证 OpenAI-compatible API 的真实模型调用。
-- 编写并启用 3 个自定义 Skill：`jd-match`、`boss-reply`、`interview-drill`。
-- 将 `SmartSteer_Status.md` 作为项目事实来源，约束 Agent 将内容分为已完成、可迁移能力与待补强项。
-- 在 Nanobot WebUI 的 `Default Permission` 下完成技能加载和输出测试。
+- 配置并验证 OpenAI-compatible API 的真实模型调用，Nanobot v0.3.0 在本机 WebUI 可用。
+- 编写并启用 4 个自定义 Skill，新增 `ecommerce-operations`。
+- 实现可单独运行的 Multi-Agent 工作流和自动化测试，无需真实密钥即可复现。
+- 数据查询采用 SQLite 只读连接和 Authorizer；审核角色拦截无证据数据、空输出及夸大营销表述。
 
-## 三个 Skill
+## Multi-Agent 协作链路
+
+```text
+用户请求
+  -> Router Agent（识别场景）
+  -> Knowledge Agent（检索示例规则）
+  -> Data Agent（只读查询模拟数据）
+  -> Content Agent（生成文案/日报/话术）
+  -> Review Agent（校验证据与夸大承诺）
+  -> Finalizer Agent（附来源与边界）
+```
+
+当前支持四类请求：`listing`、`customer_service`、`sales_report`、`inventory_alert`。每次运行会保留 `route`、数据结果、规则来源、审核状态和角色轨迹，方便演示与排错。
+
+## 快速运行
+
+在 `nanobot_agent_demo` 目录执行：
+
+```powershell
+python -m unittest discover -s tests -v
+python -m ecommerce_multi_agent.run_demo --scenario sales_report
+python -m ecommerce_multi_agent.run_demo --scenario inventory_alert
+```
+
+预期结果：测试覆盖销售日报、库存预警、客服话术和不支持请求的拦截；命令行输出完整共享状态，其中 `final_answer` 为审核通过后的最终结果。
+
+## Skills
 
 | Skill | 用途 |
 | --- | --- |
-| `jd-match` | 提取岗位任职要求，基于已验证项目事实给出匹配和补强建议。 |
+| `ecommerce-operations` | 以可验证工作流处理四类电商运营请求。 |
+| `jd-match` | 基于项目事实提取岗位匹配与待补强项。 |
 | `boss-reply` | 生成 BOSS 投递、HR 追问和面试开场文本。 |
 | `interview-drill` | 围绕 RAG、受控 SQL、FastAPI、Docker 和部署边界生成面试题。 |
 
-## 使用方式
+## 纳入 Nanobot WebUI
 
-1. 在 Nanobot WebUI 选择包含 `SmartSteer_Status.md` 的项目目录。
-2. 保持 `Default Permission`。
-3. 使用 `$jd-match`、`$boss-reply` 或 `$interview-drill` 发起请求。
+1. 在 Nanobot WebUI 打开本目录，保持 `Default Permission`。
+2. 提出商品文案、售后客服、销售日报或库存预警请求，并指定 `$ecommerce-operations`。
+3. Skill 会要求执行 `python -m ecommerce_multi_agent.run_demo --scenario <场景>` 并保留输出边界。
 
 ## 事实边界
 
-- RAG 和受控 SQL 项目的完成状态以 `SmartSteer_Status.md` 为准。
-- SQL 项目是规则型受控原型，不表述为大模型驱动的自主 SQL Agent。
-- 不把未验证的 Tool Calling、Agent 记忆、多 Agent 协作、MCP、LangGraph 或 Dify 写成已有经历。
+- Multi-Agent 是本目录中可运行的本地 Python 角色编排原型；路由、检索、只读数据查询和审核均为可测试的确定性环节，Nanobot 负责本地 Agent 工作台和 Skill 加载。
+- 规则与数据均为示例，不声称已接入 Shopify、广告平台、MCP、Dify、n8n 或生产环境。
+- 不能将模拟数据中的成交额、库存和客服规则写成真实业务结果。
 - API Key 仅保存在本机配置中，不提交到仓库。
-
-## 运行环境
-
-- Python 3.12.6
-- Nanobot v0.3.0
-- OpenAI-compatible API（密钥通过本机配置注入）
-
-Nanobot 为开源基础框架；本目录仅记录本项目新增的 Skill 和演示说明。

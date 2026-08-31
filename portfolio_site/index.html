@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="程世宏的 AI 应用开发作品集，展示个人 Nanobot Agent、可验证的 RAG 知识库与受控 SQL 数据分析项目。"
+      content="程世宏的 AI 应用开发作品集，展示可验证的 RAG 知识库、受控数据查询与 Nanobot 电商运营 Multi-Agent 原型。"
     />
     <title>程世宏 | AI 应用开发作品集</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -37,13 +37,13 @@
           <p class="eyebrow">AI APPLICATION ENGINEER / PORTFOLIO</p>
           <h1>把 AI 能力做成<br /><span>可验证的应用。</span></h1>
           <p class="hero-intro">
-            程世宏，AI 应用开发求职者。围绕真实业务问题完成个人 Nanobot Agent、RAG 知识库
-            与受控 SQL 查询三个项目，覆盖模型接入、后端接口、前端展示、测试、评测和演示交付。
+            程世宏，AI 应用开发求职者。围绕真实业务问题完成 RAG 知识库、受控数据查询与电商运营
+            Multi-Agent 原型，覆盖模型接入、后端接口、前端展示、测试、评测和演示交付。
           </p>
           <div class="hero-meta" aria-label="职业定位摘要">
-            <span><b>01</b> Nanobot Agent</span>
-            <span><b>02</b> RAG / 知识库</span>
-            <span><b>03</b> 受控数据查询</span>
+            <span><b>01</b> RAG / 知识库</span>
+            <span><b>02</b> 受控数据查询</span>
+            <span><b>03</b> Nanobot Multi-Agent</span>
           </div>
           <div class="hero-actions">
             <a class="button button-primary" href="#projects">查看主项目</a>
@@ -63,7 +63,7 @@
           </div>
           <div class="signal-grid">
             <div><strong>03</strong><span>核心项目</span></div>
-            <div><strong>03</strong><span>自定义 Agent Skill</span></div>
+            <div><strong>04</strong><span>自定义 Agent Skill</span></div>
             <div><strong>18/35</strong><span>RAG 文档 / 片段</span></div>
             <div><strong>100</strong><span>SQL 单次返回上限</span></div>
           </div>
@@ -82,34 +82,34 @@
         </div>
 
         <article class="project-card project-nanobot">
-          <div class="project-index">01</div>
+          <div class="project-index">03</div>
           <div class="project-main">
-            <p class="project-kind">PERSONAL AGENT WORKBENCH</p>
-            <h3>个人 Nanobot Agent</h3>
+            <p class="project-kind">E-COMMERCE MULTI-AGENT WORKFLOW</p>
+            <h3>Nanobot 电商运营 Multi-Agent 原型</h3>
             <p>
-              基于 Nanobot 搭建本地 Agent 工作台，接入 OpenAI-compatible API，并通过自定义
-              Skill 支持 JD 匹配、BOSS 回复和面试训练。输出以 SmartSteer 项目状态为证据，明确标注待补强项。
+              基于 Nanobot 的本地 Agent 工作台，编排 Router、Knowledge、Data、Content、Review
+              五个角色，覆盖商品文案、客服话术、销售日报和库存预警；每次运行保留路由、证据、数据、审核状态和角色轨迹。
             </p>
             <ul class="metrics">
-              <li><b>03</b><span>自定义 Skill</span></li>
-              <li><b>01</b><span>真实模型验收</span></li>
-              <li><b>LOCAL</b><span>本地工作台</span></li>
+              <li><b>05</b><span>协作角色</span></li>
+              <li><b>04</b><span>电商运营场景</span></li>
+              <li><b>04 / 04</b><span>自动化测试通过</span></li>
             </ul>
             <div class="project-actions">
-              <a class="project-demo" href="nanobot.html">查看 Nanobot <span>↗</span></a>
-              <a class="project-source" href="https://github.com/flghting1/llm-practice/tree/master/nanobot_agent_demo" target="_blank" rel="noreferrer">源码与演示说明 <span>↗</span></a>
+              <a class="project-demo" href="nanobot.html">查看项目说明 <span>↗</span></a>
+              <a class="project-source" href="https://github.com/flghting1/llm-practice/tree/master/nanobot_agent_demo" target="_blank" rel="noreferrer">源码与测试 <span>↗</span></a>
             </div>
           </div>
           <div class="project-side">
-            <p>个人工作台</p>
-            <strong>SKILL<br />DRIVEN</strong>
-            <span>本地运行、真实模型调用、基于项目证据生成求职材料</span>
+            <p>本地原型</p>
+            <strong>5<br />ROLES</strong>
+            <span>模拟电商数据、只读查询、证据审核和边界说明</span>
             <a href="https://github.com/flghting1/llm-practice/tree/master/nanobot_agent_demo" target="_blank" rel="noreferrer">查看项目说明 <span>↗</span></a>
           </div>
         </article>
 
         <article class="project-card project-rag">
-          <div class="project-index">02</div>
+          <div class="project-index">01</div>
           <div class="project-main">
             <p class="project-kind">RAG KNOWLEDGE BASE</p>
             <h3>RAG 求职知识库助手</h3>
@@ -137,7 +137,7 @@
         </article>
 
         <article class="project-card project-sql">
-          <div class="project-index">03</div>
+          <div class="project-index">02</div>
           <div class="project-main">
             <p class="project-kind">CONTROLLED SQL ANALYSIS</p>
             <h3>受控 SQL 数据分析 Agent</h3>
@@ -205,21 +205,22 @@
           </div>
           <div class="capability-grid">
             <article class="capability-card capability-nanobot">
-              <p class="capability-index">01 / PERSONAL NANOBOT AGENT</p>
-              <h3>Nanobot Agent</h3>
+              <p class="capability-index">03 / E-COMMERCE MULTI-AGENT</p>
+              <h3>Nanobot 电商运营 Multi-Agent</h3>
               <p class="capability-label">实际使用技术</p>
               <ul class="skill-tags" aria-label="Nanobot 实际使用技术">
                 <li>Python 3.12.6</li>
                 <li>Nanobot v0.3.0</li>
                 <li>OpenAI-compatible LLM</li>
-                <li>JD 匹配 Skill</li>
-                <li>BOSS 回复 Skill</li>
-                <li>面试训练 Skill</li>
-                <li>SmartSteer 状态约束</li>
+                <li>Router Agent</li>
+                <li>Knowledge Agent</li>
+                <li>Data Agent / SQLite</li>
+                <li>Content Agent</li>
+                <li>Review Agent</li>
               </ul>
               <div class="capability-boundary">
                 <p>能力边界</p>
-                <span>当前为本地个人工作台，已完成真实模型调用与三个 Skill 输出验证；不表述为生产级多 Agent 平台或公开在线服务。</span>
+                <span>当前为本地电商运营工作流原型，使用模拟商品、订单和库存数据；已完成 4 个场景与 4 项自动化测试，不表述为生产级平台或真实店铺接入。</span>
               </div>
             </article>
 
@@ -309,10 +310,10 @@
             <h2>不只展示结果，<br />也说明验证方式。</h2>
           </div>
           <div class="workflow">
-            <div><span>NANOBOT / SKILLS</span><h3>有事实约束的求职工作流</h3><p>已完成 JD 匹配、BOSS 回复和面试训练三个自定义 Skill，并用真实 OpenAI-compatible 模型完成本地输出验证。</p></div>
+            <div><span>NANOBOT / MULTI-AGENT</span><h3>可追踪的电商运营工作流</h3><p>将请求路由、规则检索、只读数据查询、内容生成和审核拆成五个角色，4 个场景均有自动化测试。</p></div>
             <div><span>RAG / QUALITY</span><h3>可追溯的回答边界</h3><p>固定 6 个问题上 Top 3 召回率为 100%，来源引用完整率为 100%；结果不等同于生产质量。</p></div>
             <div><span>SQL / SAFETY</span><h3>最小权限的执行设计</h3><p>固定集覆盖 4 个正常问题、4 条危险语句及无效输入；当前范围内正常查询成功与危险语句拦截均为 100%。</p></div>
-            <div><span>LIMITS / HONESTY</span><h3>如实标注技术边界</h3><p>Nanobot 目前是本地个人工作台；RAG 的固定评测集规模有限；SQL 项目为受控规则原型，只覆盖预设业务问题。</p></div>
+            <div><span>LIMITS / HONESTY</span><h3>如实标注技术边界</h3><p>Nanobot 使用本地模拟电商数据；RAG 的固定评测集规模有限；SQL 项目为受控规则原型，只覆盖预设业务问题。</p></div>
           </div>
         </div>
       </section>
