@@ -1,3 +1,8 @@
+---
+name: ecommerce-operations
+description: Run the local, evidence-bounded e-commerce multi-role workflow for listings, customer service, sales reports, and inventory alerts.
+---
+
 # 电商运营 Multi-Agent 工作流
 
 当用户要处理商品文案、售后客服、销售日报或库存预警时，使用本项目的可验证工作流，而不是直接编造结论。
@@ -5,9 +10,9 @@
 ## 使用方式
 
 1. 先识别请求属于 `listing`、`customer_service`、`sales_report` 或 `inventory_alert`。
-2. 先进入项目目录，再执行：
+2. 先进入 Nanobot 当前工作区，再执行：
 
-   `Set-Location 'C:\Users\flghting\Documents\ChatGPT\AI职业\llm_practice\nanobot_agent_demo'`
+   `Set-Location "$env:USERPROFILE\.nanobot\workspace"`
 
    `python -m ecommerce_multi_agent.run_demo --scenario sales_report`
 
@@ -17,5 +22,6 @@
 ## 约束
 
 - 数据库只包含本地演示数据，不能描述为真实店铺、广告或客户数据。
+- 工作流代码必须位于当前工作区的 `ecommerce_multi_agent/`；使用项目根目录的 `install_to_nanobot_workspace.ps1` 安装。
 - 不声称接入 Shopify、广告平台、MCP、Dify、n8n 或生产环境。
 - 不能绕过 Review Agent；若审核失败，应说明缺少的事实或不支持的请求。
