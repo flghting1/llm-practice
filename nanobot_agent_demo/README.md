@@ -51,7 +51,7 @@ python -m ecommerce_multi_agent.run_demo --scenario inventory_alert
 先在 PowerShell 进入本目录并执行：
 
 ```powershell
-.\install_to_nanobot_workspace.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\install_to_nanobot_workspace.ps1
 ```
 
 该脚本将工作流复制到 `~/.nanobot/workspace/ecommerce_multi_agent/`，并将 Skill 复制到 `~/.nanobot/workspace/skills/ecommerce-operations/`。这样 WebUI 的默认工作区权限可以直接读取运行所需的规则和模拟数据。
@@ -66,7 +66,7 @@ python -m ecommerce_multi_agent.run_demo --scenario inventory_alert
 
 1. 安装并配置 Nanobot 与一个可用的模型服务；密钥仅保存在对方自己的本机配置中。
 2. 克隆本仓库，进入 `nanobot_agent_demo` 目录。
-3. 使用 PowerShell 执行 `.\install_to_nanobot_workspace.ps1`。
+3. 使用 PowerShell 执行 `powershell -NoProfile -ExecutionPolicy Bypass -File .\install_to_nanobot_workspace.ps1`。
 4. 启动 Nanobot WebUI，打开 `http://127.0.0.1:8765`，使用 `$ecommerce-operations` 发起四类支持请求。
 
 该项目不提供公网共享 WebUI，也不要求或收集使用者的 API Key。每位使用者都在自己的电脑和自己的工作区内运行。
