@@ -89,11 +89,7 @@ h1 span { color: var(--lime); }
 .signal-wave i:nth-child(5) { height: 43%; }
 .signal-wave i:nth-child(6) { height: 70%; }
 .signal-panel > p:last-child { margin: 18px 0 0; color: #c4cdc6; font-size: 13px; }
-.projects { padding-top: 112px; padding-bottom: 116px; display: flex; flex-direction: column; }
-.projects .section-heading { order: 0; }
-.project-rag { order: 1; }
-.project-sql { order: 2; }
-.project-nanobot { order: 3; }
+.projects { padding-top: 112px; padding-bottom: 116px; }
 .approach { padding-top: 18px; padding-bottom: 112px; }
 .approach-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: #385045; border: 1px solid #385045; }
 .approach-step { min-height: 214px; padding: 24px; color: #edf3ed; background: #14251f; transition: background .2s ease, transform .2s ease; }
