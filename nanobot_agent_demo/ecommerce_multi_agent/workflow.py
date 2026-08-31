@@ -30,6 +30,8 @@ class WorkflowState:
     review_passed: bool = False
     final_answer: str = ""
     trace: list[str] = field(default_factory=list)
+    execution_mode: str = "deterministic"
+    model_error: str = ""
 
 
 def _route_request(request: str) -> str:
@@ -132,7 +134,7 @@ def data_agent(state: WorkflowState, database_path: Path = DATABASE_PATH) -> Non
     state.trace.append("Data Agent: completed read-only SQLite query on simulated data")
 
 
-def content_agent(state: WorkflowState) -> None:
+def content_agent(state: WorkflowState, execution_mode: str = "deterministic") -> None:
     if not state.route:
         return
     if state.route == "listing":
@@ -164,6 +166,7 @@ def content_agent(state: WorkflowState) -> None:
         lines.append("建议：先核对在途和近 7 天销量，再决定补货数量。")
         state.draft = "\n".join(lines)
     state.trace.append("Content Agent: generated a draft from approved evidence")
+    _apply_optional_model(state, execution_mode)
 
 
 def review_agent(state: WorkflowState) -> None:
@@ -192,12 +195,56 @@ def finalizer_agent(state: WorkflowState) -> None:
     state.trace.append("Finalizer Agent: packaged reviewed answer with boundaries")
 
 
-def run_workflow(request: str, database_path: Path = DATABASE_PATH) -> WorkflowState:
+def _apply_optional_model(state: WorkflowState, execution_mode: str) -> None:
+    """Optionally refine a grounded draft with an OpenAI-compatible model.
+
+    The deterministic draft remains the fallback so tests and local demos do not
+    depend on a network connection or a paid API key.
+    """
+    if execution_mode != "auto":
+        return
+
+    from .model_client import generate_grounded_draft
+
+    generated, error = generate_grounded_draft(state.request, state.draft, state.knowledge, state.data)
+    if error:
+        state.execution_mode = "deterministic_fallback"
+        state.model_error = error
+        state.trace.append("Content Agent: model unavailable; used deterministic fallback")
+        return
+    state.draft = generated
+    state.execution_mode = "openai_compatible"
+    state.trace.append("Content Agent: refined draft with optional OpenAI-compatible model")
+
+
+def _run_sequentially(request: str, database_path: Path, execution_mode: str) -> WorkflowState:
     state = WorkflowState(request=request)
     router_agent(state)
     knowledge_agent(state)
     data_agent(state, database_path)
-    content_agent(state)
+    content_agent(state, execution_mode)
     review_agent(state)
     finalizer_agent(state)
     return state
+
+
+def run_workflow(
+    request: str,
+    database_path: Path = DATABASE_PATH,
+    execution_mode: str = "deterministic",
+) -> WorkflowState:
+    """Run the role workflow through LangGraph when it is installed.
+
+    Nanobot's standalone Skill still works in a minimal Python environment:
+    without LangGraph the same nodes run sequentially and expose the fallback in
+    the trace. Normal API and Docker installs include LangGraph.
+    """
+    if execution_mode not in {"deterministic", "auto"}:
+        raise ValueError("execution_mode must be 'deterministic' or 'auto'")
+    try:
+        from .graph import run_langgraph_workflow
+    except ImportError:
+        state = _run_sequentially(request, database_path, execution_mode)
+        state.trace.append("Workflow runtime: LangGraph unavailable; ran the same nodes sequentially")
+        return state
+    return run_langgraph_workflow(request, database_path, execution_mode)

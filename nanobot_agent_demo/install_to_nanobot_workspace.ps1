@@ -24,6 +24,8 @@ Copy-Item -LiteralPath (Join-Path $sourcePackage "__init__.py") -Destination $ta
 Copy-Item -LiteralPath (Join-Path $sourcePackage "run_demo.py") -Destination $targetPackage -Force
 Copy-Item -LiteralPath (Join-Path $sourcePackage "seed_data.py") -Destination $targetPackage -Force
 Copy-Item -LiteralPath (Join-Path $sourcePackage "workflow.py") -Destination $targetPackage -Force
+Copy-Item -LiteralPath (Join-Path $sourcePackage "model_client.py") -Destination $targetPackage -Force
+Copy-Item -LiteralPath (Join-Path $sourcePackage "graph.py") -Destination $targetPackage -Force
 Copy-Item -Path (Join-Path $sourceKnowledgeBase "*") -Destination (Join-Path $targetPackage "knowledge_base") -Force
 Copy-Item -LiteralPath $sourceSkill -Destination (Join-Path $targetSkillDirectory "SKILL.md") -Force
 

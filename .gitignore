@@ -1,6 +1,10 @@
 .venv/
 __pycache__/
 *.pyc
+nanobot_agent_demo/.env
+nanobot_agent_demo/webapp/node_modules/
+nanobot_agent_demo/webapp/dist/
+nanobot_agent_demo/webapp/*.log
 invalid_plan.json
 rag_practice/evaluation_results.jsonl
 rag_practice/markdown_evaluation_results.jsonl

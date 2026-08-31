@@ -140,16 +140,16 @@
         <article class="project-card project-nanobot">
           <div class="project-index">03</div>
           <div class="project-main">
-            <p class="project-kind">E-COMMERCE MULTI-AGENT WORKFLOW</p>
+            <p class="project-kind">E-COMMERCE MULTI-AGENT / LOCAL DEMO</p>
             <h3>Nanobot 电商运营 Multi-Agent 原型</h3>
             <p>
-              基于 Nanobot 的本地 Agent 工作台，编排 Router、Knowledge、Data、Content、Review
-              五个角色，覆盖商品文案、客服话术、销售日报和库存预警；每次运行保留路由、证据、数据、审核状态和角色轨迹。
+              以 Nanobot 为兼容入口，使用 LangGraph、FastAPI 与 React 编排 Router、Knowledge、Data、Content、Review、Finalizer
+              六个节点，覆盖商品文案、客服话术、销售日报和库存预警；每次运行返回路由、证据、数据、审核状态和执行轨迹。
             </p>
             <ul class="metrics">
-              <li><b>05</b><span>协作角色</span></li>
+              <li><b>06</b><span>工作流节点</span></li>
               <li><b>04</b><span>电商运营场景</span></li>
-              <li><b>04 / 04</b><span>自动化测试通过</span></li>
+              <li><b>08 / 08</b><span>自动化测试通过</span></li>
             </ul>
             <div class="project-actions">
               <a class="project-demo" href="nanobot.html">查看项目说明 <span>↗</span></a>
@@ -157,9 +157,9 @@
             </div>
           </div>
           <div class="project-side">
-            <p>本地原型</p>
-            <strong>5<br />ROLES</strong>
-            <span>模拟电商数据、只读查询、证据审核和边界说明</span>
+            <p>本地可运行</p>
+            <strong>06<br />NODES</strong>
+            <span>LangGraph、FastAPI、React、Docker Compose、模拟数据与证据审核</span>
             <a href="https://github.com/flghting1/llm-practice/tree/master/nanobot_agent_demo" target="_blank" rel="noreferrer">查看项目说明 <span>↗</span></a>
           </div>
         </article>
@@ -211,6 +211,10 @@
               <ul class="skill-tags" aria-label="Nanobot 实际使用技术">
                 <li>Python 3.12.6</li>
                 <li>Nanobot v0.3.0</li>
+                <li>LangGraph</li>
+                <li>FastAPI</li>
+                <li>React + Vite</li>
+                <li>Docker Compose</li>
                 <li>OpenAI-compatible LLM</li>
                 <li>Router Agent</li>
                 <li>Knowledge Agent</li>
@@ -220,7 +224,7 @@
               </ul>
               <div class="capability-boundary">
                 <p>能力边界</p>
-                <span>当前为本地电商运营工作流原型，使用模拟商品、订单和库存数据；已完成 4 个场景与 4 项自动化测试，不表述为生产级平台或真实店铺接入。</span>
+                <span>当前为本地电商运营工作流原型，使用模拟商品、订单和库存数据；已完成 4 个场景与 8 项自动化测试，不表述为生产级平台或真实店铺接入。</span>
               </div>
             </article>
 
@@ -310,7 +314,7 @@
             <h2>不只展示结果，<br />也说明验证方式。</h2>
           </div>
           <div class="workflow">
-            <div><span>NANOBOT / MULTI-AGENT</span><h3>可追踪的电商运营工作流</h3><p>将请求路由、规则检索、只读数据查询、内容生成和审核拆成五个角色，4 个场景均有自动化测试。</p></div>
+            <div><span>NANOBOT / LANGGRAPH</span><h3>可追踪的电商运营工作流</h3><p>将请求路由、规则检索、只读数据查询、内容生成、审核和整合拆成六个节点，4 个场景均有自动化测试。</p></div>
             <div><span>RAG / QUALITY</span><h3>可追溯的回答边界</h3><p>固定 6 个问题上 Top 3 召回率为 100%，来源引用完整率为 100%；结果不等同于生产质量。</p></div>
             <div><span>SQL / SAFETY</span><h3>最小权限的执行设计</h3><p>固定集覆盖 4 个正常问题、4 条危险语句及无效输入；当前范围内正常查询成功与危险语句拦截均为 100%。</p></div>
             <div><span>LIMITS / HONESTY</span><h3>如实标注技术边界</h3><p>Nanobot 使用本地模拟电商数据；RAG 的固定评测集规模有限；SQL 项目为受控规则原型，只覆盖预设业务问题。</p></div>
