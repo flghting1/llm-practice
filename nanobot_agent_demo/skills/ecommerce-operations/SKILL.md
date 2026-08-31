@@ -5,7 +5,9 @@
 ## 使用方式
 
 1. 先识别请求属于 `listing`、`customer_service`、`sales_report` 或 `inventory_alert`。
-2. 在项目根目录执行：
+2. 先进入项目目录，再执行：
+
+   `Set-Location 'C:\Users\flghting\Documents\ChatGPT\AI职业\llm_practice\nanobot_agent_demo'`
 
    `python -m ecommerce_multi_agent.run_demo --scenario sales_report`
 
